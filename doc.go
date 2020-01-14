@@ -4,4 +4,4 @@
 package makeflags
 
 // Version is the text returned by passing "-v" or "--version"
-var Version = "Makeflags 1.0.0"
+var Version = "Makeflags 1.1.0"
