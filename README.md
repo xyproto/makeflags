@@ -1,5 +1,7 @@
 # makeflags
 
+[Online Documentation](https://godoc.org/github.com/xyproto/makeflags)
+
 Package for parsing the same flags and arguments that GNU Make parses.
 
 It can be used as a starting-point for writing a drop-in replacement for GNU Make.
