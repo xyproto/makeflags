@@ -2,6 +2,8 @@ package makeflags
 
 import (
 	"flag"
+	"os"
+	"path/filepath"
 )
 
 const (
@@ -47,14 +49,10 @@ type Config struct {
 	VersionInfoAndExit  bool
 }
 
-func isFlagPassed(name string) bool {
-	found := false
-	flag.Visit(func(f *flag.Flag) {
-		if f.Name == name {
-			found = true
-		}
-	})
-	return found
+// exists checks if the given path exists
+func exists(path string) bool {
+	_, err := os.Stat(path)
+	return !os.IsNotExist(err)
 }
 
 // New will parse the given arguments and return a Config struct
@@ -174,13 +172,28 @@ func New() *Config {
 	config.Evaluate = *eval
 
 	if *filename1 != "" {
-		config.Makefile = *filename1
+		if filename := filepath.Join(config.Directory, *filename1); exists(filename) {
+			config.Makefile = filename
+		}
 	}
 	if *filename2 != "" {
-		config.Makefile = *filename2
+		if filename := filepath.Join(config.Directory, *filename2); exists(filename) {
+			config.Makefile = filename
+		}
 	}
 	if *filename3 != "" {
-		config.Makefile = *filename3
+		if filename := filepath.Join(config.Directory, *filename3); exists(filename) {
+			config.Makefile = filename
+		}
+	}
+	if config.Makefile == "" {
+		if filename := filepath.Join(config.Directory, "GNUmakefile"); exists(filename) {
+			config.Makefile = filename
+		} else if filename := filepath.Join(config.Directory, "makefile"); exists(filename) {
+			config.Makefile = filename
+		} else if filename := filepath.Join(config.Directory, "Makefile"); exists(filename) {
+			config.Makefile = filename
+		}
 	}
 
 	config.IgnoreErrors = *ignoreShort || *ignoreLong
