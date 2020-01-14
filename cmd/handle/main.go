@@ -1,12 +1,3 @@
-# makeflags
-
-Package for parsing the same flags and arguments that GNU Make parses.
-
-It can be used as a starting-point for writing a drop-in replacement for GNU Make.
-
-## Example use
-
-```go
 package main
 
 import (
@@ -29,10 +20,3 @@ func main() {
 		os.Exit(2)
 	}
 }
-```
-
-## General info
-
-* Version: 1.0.0
-* License: MIT
-* Author: Alexander F. Rødseth &lt;xyproto@archlinux.org&gt;
